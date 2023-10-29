@@ -21,7 +21,7 @@ def find_similar():
   outputres=document_similarity(filename)
   print(outputres)
   os.remove(filename)
-  return render_template("similarity-table.html",results=outputres, filename=file.filename)
+  return render_template("graph.html",results=outputres, filename=file.filename)
 
 @app.route('/add-to-database', methods=['POST'])
 def upload_file():

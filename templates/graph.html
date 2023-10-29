@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<style>
+    /* style.css */
+
+body{
+    margin:10px;
+    padding: 20px;
+
+}
+#graph-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    flex-direction: column;
+    padding: 30px;
+}
+
+.node {
+    text-align: center;
+    background-color: #a9f4a3;
+    border: 2px solid #333;
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 5px 0 #000;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.center-node{
+    text-align: center;
+    background-color: #f9f787;
+    border: 2px solid #333;
+    padding: 10px;
+    margin: 25px;
+    box-shadow: 5px 0 #000;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.node:hover .commondata {
+    display: block;
+    background-color: #fff;
+}
+
+.score {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.commondata {
+    display: none;
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+</style>
+<body>
+    <div id="graph-container">
+        <div id="center-node" class="center-node">
+            <!-- Display the filename at the center -->
+            <h3>{{ filename }}</h3>
+        </div>
+        {% for node in results %}
+            <div class="node">
+                <h4>{{ node.file }}</h4>
+                <div class="score">{{ node.score }}</div>
+                <div class="commondata">
+                    <ul>
+                        {% for data in node.content %}
+                            <li>{{ data }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
