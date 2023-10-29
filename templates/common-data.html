@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title>Similarity Table</title>
+    </head>
+
+    <body>
+        <h1>Provided File: {{ogfile}}</h1>
+        <br>
+        <h1>Similar File: {{file}}</h1>
+        <br>
+        <h1>Similarity Score: {{score}}</h1>
+        <br>
+        <h1>Common Data in Documents</h1>
+        <ul>
+            {% for item in commondata %}
+            <li>{{item}}</li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>

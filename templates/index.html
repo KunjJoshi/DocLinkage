@@ -1,0 +1,48 @@
+<html>
+    <head>
+        <title>Homepage</title>
+    </head>
+    <style>
+        body{
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .title{
+            font-size: 30px;
+            font-weight: 400;
+        }
+
+        .section{
+            margin: auto;
+            padding: 20px;
+        }
+    </style>
+    <body>
+        <div name="title">
+            <h1>File Upload Section</h1>
+        </div>
+
+        {% if msg%}
+        <h2>{{msg}}</h2>
+        {% endif %}
+
+        <div name="section">
+            <form method="POST" action="/find-similar" enctype="multipart/form-data">
+                <h2>Upload FIle Here to Check Similarity</h2>
+                <input type="file" name="filename">
+                <input type="submit" value="Check">
+            </form>
+        </div>
+
+        <div name="section">
+            <form method="POST" action="/add-to-database" enctype="multipart/form-data">
+                <h2>Upload File To Database</h2>
+                <input type="file" name="uploadfile">
+                <input type="submit" value="Upload">
+            </form>
+        </div>
+
+    </body>
+</html>

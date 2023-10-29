@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>Similarity Table</title>
+    </head>
+
+    <body>
+        <h1>Similarity Table for {{filename}}</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>File Path</th>
+                    <th>Similarity Score</th>
+                    <th>View Content</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for res in results %}
+                <tr>
+                    <td>{{res['file']}}</td>
+                    <td>{{res['score']}}</td>
+                    <td>
+                        <form action="/view-common" method="POST">
+                            <input type="hidden" name="filepath" value="{{res['file']}}">
+                            <input type="hidden" name="ogfile" value="{{filename}}">
+                            <input type="hidden" name="score" value="{{res['score']}}">
+                            <input type="hidden" name="content" value="{{res['content']}}">
+                            <input type="submit" value="View More">
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>
