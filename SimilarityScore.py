@@ -61,6 +61,7 @@ def similarityscore(text1, text2):
                 similarity_score=similarity_score+1
     similarity_ratio=similarity_score/iterlen
     common_items=[word for word in common_items if word.lower() not in english_words]
+    common_items=[word for word in common_items if len(word)>3]
     return similarity_ratio, list(set(common_items))
 
 df=pd.read_csv('fileData.csv')

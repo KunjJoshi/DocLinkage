@@ -17,3 +17,5 @@ librosa
 PyMuPDF
 requests
 bs4
+pytesseract
+flask

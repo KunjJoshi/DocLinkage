@@ -2,14 +2,12 @@ import easyocr
 from PIL import Image
 import pandas as pd
 from textblob import TextBlob
+import pytesseract
+from PIL import Image
 
 def get_image_text(image_path):
-  reader=easyocr.Reader(['en'], gpu=True)
-  text=reader.readtext(image_path)
-  fulltext=''
-  for t in text:
-    t=list(t)
-    fulltext=fulltext+t[1].lower()+ ' '
+  image=Image.open(image_path)
+  fulltext=pytesseract.image_to_string(image)
   return fulltext
 
 def autocorrect(txt):
