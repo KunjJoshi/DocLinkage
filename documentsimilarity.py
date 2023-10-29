@@ -19,6 +19,10 @@ def document_similarity(filepath):
         resdict={}
         resdict['score']=simscore
         resdict['content']=commoncontent
+        allpaths[i]=str(allpaths[i])
+        numslashes=allpaths[i].count('\\')
+        for slashes in range(numslashes):
+           allpaths[i]=allpaths[i].replace('\\','/')
         resdict['file']=allpaths[i]
         allres.append(resdict)
     return allres

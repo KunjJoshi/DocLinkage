@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
 </head>
 <style>
     /* style.css */
@@ -62,24 +63,71 @@ body{
 
 </style>
 <body>
-    <div id="graph-container">
-        <div id="center-node" class="center-node">
-            <!-- Display the filename at the center -->
-            <h3>{{ filename }}</h3>
-        </div>
-        {% for node in results %}
-            <div class="node">
-                <h4>{{ node.file }}</h4>
-                <div class="score">{{ node.score }}</div>
-                <div class="commondata">
-                    <ul>
-                        {% for data in node.content %}
-                            <li>{{ data }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
+    <svg width="800" height="600"></svg>
+    <script>
+const data = JSON.parse('{{ data | tojson | safe }}')
+console.log(data);
+var width = 800;
+var height = 600;
+
+var svg = d3.select("svg");
+var centralNode = svg.append("circle")
+            .attr("r", 50) // Radius of the central node
+            .attr("cx", width / 2)
+            .attr("cy", height / 2)
+            .style("fill", "#4f6faf");
+centralNode.append("text")
+            .text(data.filename)
+            .attr("text-anchor", "middle")
+            .attr("dy", 5) // Adjust the vertical positioning
+var nodes = svg.selectAll(".node")
+             .data(data.results)
+             .enter()
+             .append("g")
+             .attr("class", "node");
+nodes.append("line")
+  .attr("x1", width / 2)
+  .attr("y1", height / 2)
+  .attr("x2", function(d, i) {
+    return (width / 2) + 100 * Math.cos((i / data.results.length) * 2 * Math.PI);
+  })
+  .attr("y2", function(d, i) {
+    return (height / 2) + 100 * Math.sin((i / data.results.length) * 2 * Math.PI);
+  })
+  .style("stroke", "gray");
+
+nodes.append("circle")
+  .attr("r", 20) // Radius of the result nodes
+  .attr("cx", function(d, i) {
+    return (width / 2) + 100 * Math.cos((i / data.results.length) * 2 * Math.PI);
+  })
+  .attr("cy", function(d, i) {
+    return (height / 2) + 100 * Math.sin((i / data.results.length) * 2 * Math.PI);
+  })
+  .style("fill", "#f7f98a");
+
+  nodes.append("text")
+  .text(function(d) {
+    return d.file;
+  })
+  .attr("x", function(d, i) {
+    return (width / 2) + 100 * Math.cos((i / data.results.length) * 2 * Math.PI);
+  })
+  .attr("y", function(d, i) {
+    return (height / 2) + 100 * Math.sin((i / data.results.length) * 2 * Math.PI);
+  })
+  .attr("text-anchor", "middle")
+  .attr("dy", 5);
+
+nodes.on("mouseover", function(d) {
+  // Display content in a list
+  var contentList = d3.select("#content-list");
+  contentList.html(""); // Clear the previous content
+  contentList.append("p").text("Content:");
+  d.content.forEach(function(item) {
+    contentList.append("p").text(item);
+  });
+});
+    </script>
 </body>
 </html>

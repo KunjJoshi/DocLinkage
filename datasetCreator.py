@@ -102,3 +102,8 @@ def datasetCreationFromFile(file, outputcsv):
     else:
         print(f"{file} skipped")
     df.to_csv(outputcsv, index=False)
+
+
+file='documents_data/AIVid.mp4'
+ocsv='fileData.csv'
+datasetCreationFromFile(file, ocsv)

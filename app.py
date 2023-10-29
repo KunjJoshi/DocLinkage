@@ -3,6 +3,7 @@ from documentsimilarity import document_similarity
 from docprocess import documentprocess
 from datasetCreator import datasetCreationFromFile
 import os
+from grapher import create_graph
 
 app = Flask(__name__)
 
@@ -21,7 +22,14 @@ def find_similar():
   outputres=document_similarity(filename)
   print(outputres)
   os.remove(filename)
-  return render_template("graph.html",results=outputres, filename=file.filename)
+  numslashes=filename.count('\\')
+  for slashes in range(numslashes):
+    filename=filename.replace('\\','/')
+  data={}
+  data['filename']=filename
+  data['results']=outputres
+  create_graph(data)
+  return render_template("graph.html", data=data)
 
 @app.route('/add-to-database', methods=['POST'])
 def upload_file():
