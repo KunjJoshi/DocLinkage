@@ -19,3 +19,6 @@ requests
 bs4
 pytesseract
 flask
+networkx
+plotly
+kaleido
