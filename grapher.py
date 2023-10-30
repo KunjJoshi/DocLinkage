@@ -6,7 +6,8 @@ def create_graph(data):
     G=nx.DiGraph()
     central_node=data['filename']
     G.add_node(central_node, content=[])
-    for result in data['results']:
+    sres=sorted(data['results'], key=lambda x: x['score'], reverse=True)
+    for result in sres:
      if len(result['content'])>0:
         node=result['file']
         G.add_node(node, content=result['content'])
@@ -33,7 +34,7 @@ def create_graph(data):
         node_y.append(y)
         node_text.append(f"<b>{node[0]}</b>")
         content=node[1]['content']
-        node_hover.append("Common Content: "+", ".join(content))
+        node_hover.append("Common Content: <br>"+"<br>".join(content))
         node_sizes.append(len(content)*5)
     edgeTexts=[]
     text_x=[]
@@ -43,10 +44,10 @@ def create_graph(data):
         x1, y1 = pos[edge[1]]
         text_x.extend([(x0+x1)/2])
         text_y.extend([(y0+y1)/2])
-        edgeTexts.extend([f"Content Similarity Score: {str(edge[2]['score'] * 100)}"])
+        edgeTexts.extend([f"<b>{str(int(edge[2]['score'] * 100))}%</b>"])
     edge_trace = go.Scatter(
         x=edge_x, y=edge_y,
-        line=dict(width=1.5, color="#000"),
+        line=dict(width=2, color="#000"),
         hoverinfo='text',
          mode='lines',
          text=edge_labels)
@@ -54,11 +55,12 @@ def create_graph(data):
 
     text_trace=go.Scatter(
         x=text_x, y=text_y,
-        mode='markers',
+        mode='markers+text',
         showlegend=False,
-        marker=go.Marker(opacity=0)
+        marker=go.Marker(opacity=0),
+        text=edgeTexts,
+        textposition="top center"
     )
-    text_trace.hovertext=edgeTexts
     node_trace=go.Scatter(
             x=node_x, y=node_y,
             mode='markers+text',
@@ -66,8 +68,9 @@ def create_graph(data):
             marker=dict(
               showscale=True,
               colorscale='YlGnBu',
-              size=50,
-            )
+              size=70,
+            ),
+            textposition="bottom center"
     )
     colorlen=[]
     for node in G.nodes(data=True):
@@ -76,7 +79,6 @@ def create_graph(data):
     node_trace.marker.color=colorlen
     node_trace.text=node_text
     node_trace.hovertext=node_hover
-
 
     fig=go.Figure(data=[edge_trace, node_trace, text_trace])
     fig.update_layout(
