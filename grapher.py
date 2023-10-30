@@ -5,11 +5,13 @@ import random
 def create_graph(data):
     G=nx.DiGraph()
     central_node=data['filename']
+    central_node=central_node.split('/')[-1]
     G.add_node(central_node, content=[])
     sres=sorted(data['results'], key=lambda x: x['score'], reverse=True)
     for result in sres:
      if len(result['content'])>0:
         node=result['file']
+        node=node.split('/')[-1]
         G.add_node(node, content=result['content'])
         G.add_edge(central_node,node, score=result['score'])
     pos=nx.spring_layout(G)
