@@ -3,7 +3,7 @@ from documentsimilarity import document_similarity
 from docprocess import documentprocess
 from datasetCreator import datasetCreationFromFile
 import os
-from grapher import create_graph
+from grapher import create_graph, interconnected_graph
 
 app = Flask(__name__)
 
@@ -29,6 +29,7 @@ def find_similar():
   data['filename']=filename
   data['results']=outputres
   create_graph(data)
+  interconnected_graph(data)
   return render_template("graph.html", data=data)
 
 @app.route('/add-to-database', methods=['POST'])
