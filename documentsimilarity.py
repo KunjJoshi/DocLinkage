@@ -5,7 +5,7 @@ import pandas as pd
 def document_similarity(filepath):
     allres=[]
     filetext=documentprocess(filepath)
-    #print(f"Text On File: {filetext}")
+    print(f"Text On File: {filetext}")
     try:
      df=pd.read_csv('fileData.csv')
     except:
